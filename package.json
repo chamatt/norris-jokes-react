@@ -1,5 +1,6 @@
 {
-  "name": "norris-quotes",
+  "name": "norris-jokes-react",
+  "homepage": "https://chamatt.github.io/norris-jokes-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,11 +15,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.2",
+    "gh-pages": "^1.2.0",
     "prettier": "^1.13.7"
   }
 }
