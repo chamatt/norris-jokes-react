@@ -6,6 +6,19 @@ const Filter = props => {
     <Segment>
       <Grid>
         <Grid.Column>
+          {console.log(props.categories)}
+          <Label
+            key={`label-all`}
+            as="a"
+            active={props.areAllSelected}
+            color={props.areAllSelected ? "red" : "grey"}
+            size="large"
+            className="category-label"
+            onClick={() => props.handleSelectAll()}
+          >
+            all
+          </Label>
+
           {props.categories.map(cat => (
             <Label
               onClick={() => props.onClick(cat.category)}
@@ -13,6 +26,8 @@ const Filter = props => {
               as="a"
               active={cat.selected}
               color={cat.selected ? "red" : "grey"}
+              size="large"
+              className="category-label"
             >
               {cat.category}
             </Label>

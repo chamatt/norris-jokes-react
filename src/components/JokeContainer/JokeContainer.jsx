@@ -8,8 +8,12 @@ class JokeContainer extends Component {
     super(props);
     this.state = {
       categories: [],
-      filterCategories: []
+      filterCategories: [],
+      areAllSelected: true
     };
+
+    this.handleCategoriesClick = this.handleCategoriesClick.bind(this);
+    this.handleSelectAll = this.handleSelectAll.bind(this);
   }
 
   fetchCategories = () => {
@@ -21,39 +25,70 @@ class JokeContainer extends Component {
 
   componentDidMount = () => {
     this.fetchCategories().then(res => {
-      console.log(res.data);
-      this.setState({ categories: res.data });
-    });
-
-    const temp = this.state.categories;
-    const categories = [...temp, "all"];
-    categories.sort();
-    const mappedCategories = categories.map(cat => {
-      return {
-        category: cat,
-        selected: false
-      };
-    });
-    this.setState({
-      ...this.state.categories,
-      filterCategories: [...mappedCategories]
+      let categories = res.data;
+      categories.sort();
+      const mappedCategories = categories.map(cat => {
+        return {
+          category: cat,
+          selected: true
+        };
+      });
+      this.setState({
+        ...this.state,
+        categories,
+        filterCategories: [...mappedCategories]
+      });
     });
   };
 
   handleCategoriesClick(category) {
-    const filterCategories = this.state.filterCategories.map(cat => {
-      if (cat.category === category) return { ...cat, selected: true };
+    let categories;
+    let filterCategories = this.state.filterCategories.map(cat => {
+      if (cat.category === category) return { ...cat, selected: !cat.selected };
       else return cat;
     });
-    this.setState({ ...this.state, filterCategories });
+    categories = filterCategories
+      .filter(cat => cat.selected)
+      .map(cat => cat.category);
+
+    this.setState({ ...this.state, categories, filterCategories });
+  }
+
+  handleSelectAll() {
+    const amountSelected = this.state.filterCategories.reduce(
+      (prev, elem) => (elem.selected ? prev + 1 : prev),
+      0
+    );
+
+    let areAllSelected =
+      amountSelected === this.state.filterCategories.length ? true : false;
+
+    let filterCategories;
+
+    if (areAllSelected) {
+      filterCategories = this.state.filterCategories.map(cat => {
+        return { ...cat, selected: false };
+      });
+      areAllSelected = !areAllSelected;
+    } else {
+      filterCategories = this.state.filterCategories.map(cat => {
+        return { ...cat, selected: true };
+      });
+      areAllSelected = !areAllSelected;
+    }
+
+    this.setState({ ...this.state, filterCategories, areAllSelected });
   }
 
   render() {
     return (
       <Container>
+        {console.log("eitacaralho", this.state.filterCategories)}
         <Filter
-          categories={this.state.categories}
+          categories={this.state.filterCategories}
           onClick={this.handleCategoriesClick}
+          handleSelectAll={this.handleSelectAll}
+          areAllSelected={this.state.areAllSelected}
           fluid
         />
 
