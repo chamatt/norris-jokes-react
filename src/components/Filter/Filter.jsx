@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Grid, Label, Segment } from "semantic-ui-react";
+import "./Filter.css";
 
 const Filter = props => {
   return (

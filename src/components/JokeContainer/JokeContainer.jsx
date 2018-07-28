@@ -41,43 +41,65 @@ class JokeContainer extends Component {
     });
   };
 
+  updateCategories(filterCategories = this.state.filterCategories) {
+    let categories;
+    categories = filterCategories
+      .filter(cat => cat.selected)
+      .map(cat => cat.category);
+    return categories.sort();
+  }
+
   handleCategoriesClick(category) {
     let categories;
     let filterCategories = this.state.filterCategories.map(cat => {
       if (cat.category === category) return { ...cat, selected: !cat.selected };
       else return cat;
     });
-    categories = filterCategories
-      .filter(cat => cat.selected)
-      .map(cat => cat.category);
+    categories = this.updateCategories(filterCategories);
+    const areAllSelected = this.AllSelected(filterCategories);
 
-    this.setState({ ...this.state, categories, filterCategories });
+    this.setState({
+      ...this.state,
+      categories,
+      filterCategories,
+      areAllSelected
+    });
   }
 
-  handleSelectAll() {
-    const amountSelected = this.state.filterCategories.reduce(
+  AllSelected(filterCategories = this.state.filterCategories) {
+    const amountSelected = filterCategories.reduce(
       (prev, elem) => (elem.selected ? prev + 1 : prev),
       0
     );
 
-    let areAllSelected =
-      amountSelected === this.state.filterCategories.length ? true : false;
+    return amountSelected === this.state.filterCategories.length;
+  }
 
+  handleSelectAll() {
+    let categories;
     let filterCategories;
+    let areAllSelected = this.AllSelected();
 
     if (areAllSelected) {
       filterCategories = this.state.filterCategories.map(cat => {
         return { ...cat, selected: false };
       });
       areAllSelected = !areAllSelected;
+      categories = this.updateCategories(filterCategories);
     } else {
       filterCategories = this.state.filterCategories.map(cat => {
         return { ...cat, selected: true };
       });
       areAllSelected = !areAllSelected;
+      categories = this.updateCategories(filterCategories);
     }
 
-    this.setState({ ...this.state, filterCategories, areAllSelected });
+    this.setState({
+      ...this.state,
+      categories,
+      filterCategories,
+      areAllSelected
+    });
   }
 
   render() {
