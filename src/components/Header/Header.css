@@ -1,0 +1,28 @@
+.hero-container {
+    display: flex;
+    width: 100%;
+    height: 400px;
+    padding-top: 5em;
+    padding-bottom: 5em;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-body {
+    display: block;
+    text-align: center;
+    margin:10px;
+}
+
+.hero-title {
+    font-size: 10rem;
+    font-family: Monospace;
+    line-height: 1;
+}
+
+.hero-subtitle {
+    font-size: 2rem;
+    font-weight: 0.5em;
+    line-height: 2;
+}
