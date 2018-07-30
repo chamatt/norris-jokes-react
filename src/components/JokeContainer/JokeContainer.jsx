@@ -3,6 +3,7 @@ import { Grid, Container, Segment } from "semantic-ui-react";
 import Joke from "./../Joke/Joke";
 import axios from "axios";
 import Filter from "./../Filter/Filter";
+
 class JokeContainer extends Component {
   constructor(props) {
     super(props);

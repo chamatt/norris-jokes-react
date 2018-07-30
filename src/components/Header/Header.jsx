@@ -1,6 +1,5 @@
 import React from "react";
 import "./Header.css";
-import { Button } from "semantic-ui-react";
 
 const Header = props => {
   const style = {
